@@ -1,0 +1,269 @@
+ctrl + p  --> buscar archivos
+ctrl + f  --> buscar en pagina
+
+clo =>>>>  console.log('object :', object);
+
+>>>>>> TypeScript:
+
+tsc app -w 	--> compila TypeScript
+
+tsc -init 	--> inicializar proyecyo TypeScript
+
+tsc 				--> compila todo el proyecto
+
+
+>>>>>> Angular:
+
+ng new nombreDeLaApp		--> crea la aplicacion
+
+ng s -o 								--> compila angular y abre el servidor local
+
+
+>>>>>> Componentes:
+
+- ng g c direccion -is --skipTests (-m)	--> genera componente (sin css y sin test (sin html -it))
+- Importo los componentes en el app.module.ts en las "declarations" (sino lo importa automaticamente)
+- (-m) -m="pages/pages.module.ts"  --> Dice en que modulo se importa
+
+>>>>>> Instalar Bootstrap por medio del CLI:
+
+npm install bootstrap --save 		--> instalar bootstrap en la app
+npm install jquery --save				--> instalar jquery
+npm install popper.js --save		--> instalar popper
+
+- Luego hay que modificar en el angular.json:
+
+	"styles": [
+		"src/styles.css",
+		"node_modules/bootstrap/dist/css/bootstrap.min.css"
+	],
+
+	"scripts": [
+		"node_modules/jquery/dist/jquery.slim.min.js",
+		"node_modules/popper.js/dist/umd/popper.min.js",
+		"node_modules/bootstrap/dist/js/bootstrap.min.js"
+	],
+
+$.fn.tooltip.Constructor.VERSION	<<<--- Indenticar en la consola, version.
+
+
+>>>>>> Instalar FontAwesome
+
+npm install font-awesome --save  	--> instalar FontAwesome
+
+- Luego hay que modificar en el angular.json:
+
+ "styles": [
+			"src/styles.css",
+			"node_modules/font-awesome/css/font-awesome.css"
+	],
+
+
+>>>>>> Rutas
+
+- app-routing.module.ts
+- Importo : los componentes
+- Direcciono las rutas "path" y "component"
+	*(Si necesito enviar parametros el path es: ruta/:parametro)
+-	Redirecciono vacios '' y cualquiera '**' al home
+- en los "imports": RouterModule.forRoot( ROUTES, { useHash: true } )
+
+Ej:
+<li class="nav-item" routerLinkActive="active">
+  <a class="nav-link" routerLink="home">Home </a>
+</li>
+
+* --> en el component.ts:
+- importo ActivatedRoute
+- inyecto en el constructor el ActivatedRoute
+- subscribo al this.router.params:
+	Ej 1:
+	this.router.params.subscribe( parametros => {
+    console.log("Ruta Padre: ", parametros);
+  });
+	Ej 2:
+	const id = this.route.snapshot.paramMap.get('id');
+
+- si tengo hijas me subscribo al this.router.parent.subscribe
+
+
+- <router-outlet></router-outlet> --> donde quiero renderizar las rutas
+
+
+>>>>>> Servicos / Providers
+
+- ng g s ruta --skipTests  --> Creo el servicio
+
+Sino esta el providedIn: 'root' en el injectable,
+importo el servicio al app.module.ts en los "providers".
+Si esta en el root, no es necesario importarlo !!!
+
+>> Consumir Servicios <<
+
+En app.module.ts :
+- import { HttpClientModule } from "@angular/common/http";
+- imports:[
+		HttpClientModule
+	]
+
+En el servicio:
+- import { HttpClient } from "@angular/common/http";
+	e inyectarlo en el constructor:
+	constructor( private http: HttpClient ) { }
+
+- Creo método que requiera el servicio:
+- Importar operador map de rxjs/operators
+	(transforma la respuesta del observable y devuelvo lo que)
+
+	Ej: peticion POST:
+	metodo( parametro: Tipo Modelo ) {
+  	return this.http.post( url, parametro)
+			.pipe(
+				map( (resp: any) => {
+					console.log(resp); <--- hago lo que necesito con la respuesta.
+				})
+			)
+  }
+
+En el componente:
+- Inyecto el servicio en el constructor:
+	 constructor( private servicio: TipoService ) { }
+
+- Dentro de un metodo, me subscribo al metodo del servicio:
+	  this.servicio.metodoServicio( parametro )
+    	.subscribe( resp => {
+      	console.log('resp :', resp);
+    	});
+
+
+>>>>>> Pipes
+
+Puedo usarlo para hacer validaciones:
+
+- ng g p ruta --skipTests  --> Creo el pipe
+
+>> Para hacer debugs:
+
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'log'
+})
+export class LogPipe implements PipeTransform {
+    transform(value: any, args?: any): any {
+        console.log(value);
+        return null;
+    }
+}
+
+y en el componente
+
+{{ variable | log }}
+
+
+>>>>>> NgStyle
+Aplica estilos en linea (se puede usar variables)
+
+>>>>>> NgClass
+Aplica Clases en linea (se puede usar variables)
+
+>>>>>> Directivas
+- ng g d ruta --skipTests 	--> Crea Directiva
+
+>>>>>> Guard / Protectores
+Protege las rutas
+- ng g guard services/auth --skipTests		--> Crea Guard
+- CanActivate
+
+>>>>>> Modelos
+- Es una clase de TypeScript= export class nombre {}
+- Lo inicializo en el component.ts para luego usar en el html.
+  Ej: heroe: HeroeModel = new HeroeModel();
+
+>>>>>> Formularios
+- Importar: FormsModule en los imports
+- Creo el submit:
+	<form (ngSubmit)="guardar( f )" #f="ngForm">
+- Asociar campos con el ngModel (recordar atributo name)
+	[(ngModel)]=""
+
+>>>>>> Pasar a produccion
+
+Desde la carpeta de la app: (bajar servidor)
+- enviroments.ts --> production true
+- Genero carpeta dist: ng build --prod
+
+>>>>>> Eventos
+
+(click) --> emitir eventos
+
+[value] --> recibir valores
+
+[( ngModel )]  --> emite y recibe eventos,
+entonces ayuda a poder controlar modificaciones,
+ya sea del cliente o del componente
+
+>>>>>> Git:
+git config --global http.proxy http://proxyuser: proxy01:8080
+
+recordar crear archivo = .gitignore : node_modules/
+
+git init  --> inicializar el proyecto
+
+git status  --> Ver los cambios
+git add .   --> Agrego al Stage
+git status  --> Ver los cambios
+git commit –m “mensaje”   --> Agrego un mensaje en lo que subo
+git push origin master  --> Subo los cambios
+git tag –a v1.0.0 –m “Version 1 – Lista para producción”  --> Crea un tag con el nombre (-a) y el mensaje (-m)
+git push –-tags   --> Sube el tag
+
+>>>>>> Actualizacion
+npm uninstall -g angular-cli
+npm cache clean or npm cache verify (if npm > 5)
+npm install -g @angular/cli@latest
+o
+
+ng update @angular/cli
+
+>>>>>> Observables
+
+/watch?v=M4OORF_-AHQ
+
+https://www.learnrxjs.io/operators/error_handling/retrywhen.html
+
+y dejo el enlace que aplica el ejemplo
+
+https://stackblitz.com/edit/angular-cwnknr?file=app%2Frxjs-utils.ts
+
+Más sobre los diferentes operadores disponibles de RXJS
+http://reactivex.io/documentation/operators.html
+
+
+>>>>>> NODE <<<<<<
+
+npm init --> Crea el proyecto
+
+npm install express --save --> instalo express
+
+app.js --> Creo el archivo
+
+
+>>>>>> nodemon (recarga automaticamente)
+
+en el package.json:
+
+"scripts": {
+	"start": "nodemon app.js",
+	"test": "echo \"Error: no test specified\" && exit 1"
+},
+
+npm start --> ejecuto el servidor
+
+>>>>>> mongoDB (base de datos)
+
+conectar mongo:
+
+npm install mongoose --save  --> instalo moongose
+
+var mongoose = require('mongoose');
