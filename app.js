@@ -1,9 +1,21 @@
 // Requires (importo librerias)
 var express = require('express');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 
 // Inicializar Variables
 var app = express();
+
+// Body Parser (middleWares)
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
+
+// Importar rutas
+var usuarioRoutes = require('./routes/usuario');
+var loginRoutes = require('./routes/login');
+var appRoutes = require('./routes/app');
 
 // Conexión a la BBDD
 mongoose.connect('mongodb://localhost:27017/hospitalDB', {
@@ -19,15 +31,9 @@ mongoose.connect('mongodb://localhost:27017/hospitalDB', {
 });
 
 // Rutas
-app.get('/', (req, res, next) => {
-
-    // Realizo peticion y la formateo para que venga en JSON y mando un objeto
-    res.status(200).json({
-        ok: true,
-        mensaje: 'Petición realizada correctamente'
-    });
-
-});
+app.use('/usuario', usuarioRoutes);
+app.use('/login', loginRoutes);
+app.use('/', appRoutes);
 
 // Escuchar peticiones
 app.listen(3000, () => {

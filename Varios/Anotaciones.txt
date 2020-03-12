@@ -267,3 +267,11 @@ conectar mongo:
 npm install mongoose --save  --> instalo moongose
 
 var mongoose = require('mongoose');
+
+>>>>>> body-parser (middleWare para capturar el body de la peticion)
+
+>>>>>> mongoose-unique-validator (manejar valores unicos en el modelo)
+
+>>>>>> bcryptjs ( contaseñas )
+
+>>>>>> jsonwebtoken ( jwt contaseñas )
