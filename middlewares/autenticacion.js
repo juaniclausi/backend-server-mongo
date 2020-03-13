@@ -34,4 +34,4 @@ exports.verificaToken = function(req, res, next) {
         // });
 
     });
-}
+};

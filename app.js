@@ -13,6 +13,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Importar rutas
+var medicoRoutes = require('./routes/medico');
+var hospitalRoutes = require('./routes/hospital');
 var usuarioRoutes = require('./routes/usuario');
 var loginRoutes = require('./routes/login');
 var appRoutes = require('./routes/app');
@@ -31,6 +33,8 @@ mongoose.connect('mongodb://localhost:27017/hospitalDB', {
 });
 
 // Rutas
+app.use('/medico', medicoRoutes);
+app.use('/hospital', hospitalRoutes);
 app.use('/usuario', usuarioRoutes);
 app.use('/login', loginRoutes);
 app.use('/', appRoutes);
