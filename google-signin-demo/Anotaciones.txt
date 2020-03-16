@@ -279,3 +279,5 @@ var mongoose = require('mongoose');
 >>>>>> jsonwebtoken ( jwt contaseñas )
 
 >>>>>> npm install --save express-fileupload (subir archivos al servidor)
+
+>>>>>> https://github.com/johnpapa/lite-server (crear un servidor rapidamente)
