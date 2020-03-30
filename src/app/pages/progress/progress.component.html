@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h5 class="card-title">Barra de Progreso</h5>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="[progreso]" aria-valuemin="0" aria-valuemax="100" [style.width]="progreso + '%'"></div>
+                </div>
+
+                <br>
+
+                <h5 class="card-title">Barra de Progreso 2</h5>
+                <div class="progress">
+                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="[progreso2]" aria-valuemin="0" aria-valuemax="100" [style.width]="progreso2 + '%'"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <!-- [leyenda]="progress" Si esta con llaves, puedo mandar una variable (progress), sin llaves manda string directo -->
+                <!-- Se le cambio el nombre a la input para que se llame nombre en vez de leyenda -->
+                <!-- Para recibir la emision del evento es igual que cuando escucho el evento (click)="expression" -->
+                <app-incrementador (actualizaValor)="progreso = $event" nombre="Progress Azul" [progreso]="progreso"></app-incrementador>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+
+                <app-incrementador (actualizaValor)="progreso2 = $event" nombre="Progress Verde" [progreso]="progreso2"></app-incrementador>
+
+            </div>
+        </div>
+    </div>
+
+</div>
